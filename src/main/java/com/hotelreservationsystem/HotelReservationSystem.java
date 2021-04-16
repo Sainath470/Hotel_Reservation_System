@@ -1,16 +1,18 @@
 package com.hotelreservationsystem;
+
+import java.util.ArrayList;
+
 public class HotelReservationSystem{
-    String hotelName;
-    int weekdayRateForRegularCustomer;
-    int weekendRateForRegularCustomer;
 
+    ArrayList<Hotel> hotelList = new ArrayList<>();
 
-    public  HotelReservationSystem(String name, int weekdayRegular, int weekendRegular){
-        this.hotelName = name;
-        this.weekdayRateForRegularCustomer = weekdayRegular;
-        this.weekendRateForRegularCustomer = weekendRegular;
-        System.out.println("HOTEL NAME :"+hotelName+"\nWEEKDAY RATE FOR REGULAR CUSTOMER:"+weekdayRateForRegularCustomer+"\nWEEKEND RATE FOR REGULAR CUSTOMER:"+ weekendRateForRegularCustomer+"\n");
+    public boolean addHotel(String hotelName,int rates, int rating){
+        Hotel hotel = new Hotel(hotelName, rates, rating);
+        hotelList.add(hotel);
+        if(hotelList.isEmpty()){
+            return false;
+        }
+        else
+            return true;
     }
-
-
 }

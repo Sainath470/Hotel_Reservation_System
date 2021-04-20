@@ -2,18 +2,22 @@ package com.hotelreservationsystem;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HotelReservationSystem {
     private static final Map<String, Hotel> listOfHotels = new HashMap<>();
 
-    Hotel lakewood = new Hotel("Lakewood",110, 90);
-    Hotel bridgewood = new Hotel("Bridgewood", 150,50);
-    Hotel ridgewood = new Hotel("Ridgewood", 220,150);
+    //Added Multiple Hotels
+    Hotel lakewood = new Hotel("Lakewood",110, 90,3);
+    Hotel bridgewood = new Hotel("Bridgewood", 150,50,4);
+    Hotel ridgewood = new Hotel("Ridgewood", 220,150,5);
 
-
+    //Added Hotels to listOfHotels
     public void addHotel() {
         listOfHotels.put("Lakewood", lakewood);
         listOfHotels.put("Bridgewood", bridgewood);
@@ -35,12 +39,6 @@ public class HotelReservationSystem {
         return cheapestHotelStream.collect(Collectors.toList());
     }
 
-    /**
-     * Find the Cheapest Hotels and cost
-     * @param checkInDate  Check In Date
-     * @param checkOutDate Check Out Date
-     * @param hotel Hotel
-     */
     public void calculateTotalPrice(String checkInDate, String checkOutDate, Map.Entry<String, Hotel> hotel) {
         hotel.getValue().totalPrice = 0;
 

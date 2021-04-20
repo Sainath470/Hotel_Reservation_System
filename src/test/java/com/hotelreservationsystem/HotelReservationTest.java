@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Map;
 
-public class HotelReservationTest
-{
+public class HotelReservationTest {
+
     @Test
     public void whenHotelIsAddedToHotelList(){
         HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
@@ -24,7 +24,6 @@ public class HotelReservationTest
         Assertions.assertEquals(220, hotelPrice);
     }
 
-
     @Test
     public void whenWeekdayAndWeekendPricesIsAddedToHotelList(){
         HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
@@ -33,8 +32,6 @@ public class HotelReservationTest
 
         String hotelName = hotelReservationSystem.ridgewood.getHotelName();
         Integer hotelPrice = hotelReservationSystem.ridgewood.getWeekdayPrice();
-
-        hotelReservationSystem.print();
 
         Assertions.assertEquals("Ridgewood", hotelName );
         Assertions.assertEquals(220, hotelPrice);
@@ -52,7 +49,17 @@ public class HotelReservationTest
         Assertions.assertEquals("[Bridgewood=Hotel{HotelName ='Bridgewood', Total Price = $200}," +
                 " Lakewood=Hotel{HotelName ='Lakewood', Total Price = $200}]", cheapestHotel.toString());
     }
+
+    @Test
+    public void whenRatingOfHotelIsAddedToList(){
+        HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
+
+        hotelReservationSystem.addHotel();
+
+        String hotelName = hotelReservationSystem.ridgewood.getHotelName();
+        Integer hotelPrice = hotelReservationSystem.ridgewood.getRating();
+
+        Assertions.assertEquals("Ridgewood", hotelName );
+        Assertions.assertEquals(5, hotelPrice);
+    }
 }
-
-
-

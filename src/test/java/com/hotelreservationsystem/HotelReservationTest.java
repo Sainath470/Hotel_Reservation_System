@@ -2,7 +2,6 @@ package com.hotelreservationsystem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Map;
 
 public class HotelReservationTest {
@@ -38,16 +37,15 @@ public class HotelReservationTest {
     }
 
     @Test
-    public void givenRangeOfDatesReturnCheapestHotelAtThatPeriod() {
+    public void givenRangeOfDatesReturnBestCheapestRatedHotelAtThatPeriod() {
         HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
         hotelReservationSystem.addHotel();
 
-        List<Map.Entry<String, Hotel>> cheapestHotel = hotelReservationSystem.findCheapestHotel("11/09/2020", "12/09/2020");
+        Map.Entry<String, Hotel> cheapestHotel = hotelReservationSystem.findBestCheapestRatedHotel("11/09/2020", "12/09/2020");
 
         System.out.println(cheapestHotel);
 
-        Assertions.assertEquals("[Bridgewood=Hotel{HotelName ='Bridgewood', Total Price = $200}," +
-                " Lakewood=Hotel{HotelName ='Lakewood', Total Price = $200}]", cheapestHotel.toString());
+        Assertions.assertEquals("Bridgewood=Hotel{hotelName='Bridgewood', totalPrice=200, rating=4}", cheapestHotel.toString());
     }
 
     @Test

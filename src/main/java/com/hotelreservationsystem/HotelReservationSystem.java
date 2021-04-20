@@ -23,7 +23,12 @@ public class HotelReservationSystem {
         listOfHotels.put("Ridgewood",ridgewood);
     }
 
-
+    /**
+     * Find the Cheapest Hotels and cost
+     * @param checkInDate  Check In Date
+     * @param checkOutDate Check Out Date
+     * @return bestCheapestRatedHotel
+     */
     public Map.Entry<String, Hotel> findBestCheapestRatedHotel(String checkInDate, String checkOutDate) {
 
         for(Map.Entry<String, Hotel> hotelEntry: listOfHotels.entrySet()) {
@@ -31,12 +36,33 @@ public class HotelReservationSystem {
         }
 
         Map.Entry<String, Hotel> cheapestHotel =  listOfHotels.entrySet().stream()
-                .min(Comparator.comparing(hotel -> hotel.getValue().totalPrice)).orElseThrow();
+                .min(Comparator.comparing(hotel -> hotel.getValue().totalPrice))
+                .orElseThrow();
         Stream<Map.Entry<String, Hotel>> cheapestHotelStream = listOfHotels.entrySet().stream()
                 .filter(hotel -> hotel.getValue().totalPrice == cheapestHotel.getValue().totalPrice);
         return cheapestHotelStream.max(Comparator.comparing(hotel -> hotel.getValue().getRating())).orElseThrow();
     }
 
+    /**
+     * Find the Cheapest Hotels and cost
+     * @param checkInDate  Check In Date
+     * @param checkOutDate Check Out Date
+     * @return bestRatedHotel
+     */
+    public Map.Entry<String, Hotel> findBestRatedHotel(String checkInDate, String checkOutDate){
+        for(Map.Entry<String, Hotel> hotelEntry: listOfHotels.entrySet()) {
+            calculateTotalPrice(checkInDate, checkOutDate, hotelEntry);
+        }
+        return listOfHotels.entrySet().stream()
+                .max(Comparator.comparing(hotel -> hotel.getValue().getRating()))
+                .orElseThrow();
+    }
+    /**
+     * Find the Cheapest Hotels and cost
+     * @param checkInDate  Check In Date
+     * @param checkOutDate Check Out Date
+     * @param hotel Hotel
+     */
     public void calculateTotalPrice(String checkInDate, String checkOutDate, Map.Entry<String, Hotel> hotel) {
         hotel.getValue().totalPrice = 0;
 

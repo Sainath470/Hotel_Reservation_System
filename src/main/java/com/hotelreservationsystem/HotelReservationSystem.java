@@ -1,42 +1,47 @@
 package com.hotelreservationsystem;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class HotelReservationSystem {
-    ArrayList<Hotel> hotelList = new ArrayList<Hotel>();
+    private static final Map<String, Hotel> listOfHotels = new HashMap<>();
 
-    public boolean addHotel(String hotelName, int rates, int rating) {
-        Hotel hotel = new Hotel(hotelName, rates, rating);
-        hotelList.add(hotel);
-        System.out.println(hotelList.isEmpty());
-        if (hotelList.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+    Hotel lakewood = new Hotel("Lakewood",110, 90);
+    Hotel bridgewood = new Hotel("Bridgewood", 150,50);
+    Hotel ridgewood = new Hotel("Ridgewood", 220,150);
+
+    public void addHotel() {
+        listOfHotels.put("Lakewood", lakewood);
+        listOfHotels.put("Bridgewood", bridgewood);
+        listOfHotels.put("Ridgewood",ridgewood);
     }
 
-    public boolean addHotel(String name, Double rates) {
-        Hotel hotel = new Hotel(name, rates);
-        hotelList.add(hotel);
-        return !hotelList.isEmpty();
+    public int numberOfDays(String checkInDate, String checkOutDate){
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate checkIn = LocalDate.parse(checkInDate, dateFormatter);
+        LocalDate checkOut = LocalDate.parse(checkOutDate, dateFormatter);
+        return (checkOut.getDayOfYear() - checkIn.getDayOfYear()) +1;
     }
 
-    public String findCheapestHotel(Date [] dates)
-    {
-        ArrayList<Double> cheapRateHotels = new ArrayList<>();
-        for (Hotel hotel : hotelList)
-        {
-            Double rate = 0.0;
-            for ( Date date : dates)
-            {
-                rate = hotel.getRate();
-            }
-            cheapRateHotels.add(rate);
+    public String findCheapestHotel(String checkIn, String checkOut) {
+        int numberOfDays = numberOfDays(checkIn, checkOut);
+        Hotel cheapestHotel = listOfHotels.values().stream()
+                .min(Comparator.comparingInt(Hotel::getWeekdayPrice))
+                .orElseThrow();
+        int cheapestHotelPrice = cheapestHotel.getWeekdayPrice();
+        String cheapestHotelName = cheapestHotel.getHotelName();
+        int totalPrice = cheapestHotelPrice * numberOfDays;
+        switch (cheapestHotelName) {
+            case "Lakewood":
+                return "Lakewood, Total Price = $" + totalPrice;
+            case "Bridgewood":
+                return "Bridgewood, Total Price = $" + totalPrice;
+            case "Ridgewood":
+                return "Ridgewood, Total Price = $" + totalPrice;
         }
-        Double cheap = cheapRateHotels.stream().min(Comparator.comparing(Double::doubleValue)).orElse(null);
-        int index = cheapRateHotels.indexOf(cheap);
-        return hotelList.get(index).getName();
+        return "more than one cheap hotels";
+    }
+    public void print(){
+        listOfHotels.forEach((key, value) -> System.out.println(value));
     }
 }

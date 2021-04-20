@@ -1,41 +1,51 @@
 package com.hotelreservationsystem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class HotelReservationTest
 {
-    HotelReservationSystem hotelReservation = new HotelReservationSystem();
     @Test
-    public void checkedGivenHotel_NameAndRateAreAdded_True()
-    {
-        boolean result = hotelReservation.addHotel("Lakewood",110,4);
-        Assertions.assertTrue(result);
+    public void whenHotelIsAddedToHotelList(){
+        HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
+
+        hotelReservationSystem.addHotel();
+
+        String hotelName = hotelReservationSystem.ridgewood.getHotelName();
+        Integer hotelPrice = hotelReservationSystem.ridgewood.getWeekdayPrice();
+
+        System.out.print(hotelName);
+        System.out.println(" Price is $" +hotelPrice);
+        hotelReservationSystem.print();
+
+        Assertions.assertEquals("Ridgewood", hotelName );
+        Assertions.assertEquals(220, hotelPrice);
     }
 
     @Test
-    public void checkedCheapestHotel_BetweenTwoDates_ShouldTrue()
-    {
-        SimpleDateFormat sdf = new SimpleDateFormat("ddMMMMyyyy");
-        String[] inputDateString = {"10Sep2020", "11Sep2020"};
-        Date[] inputDate = null;
-        try
-        {
-            inputDate = new Date[]{sdf.parse(inputDateString[0]), sdf.parse(inputDateString[1])};
-        }
-        catch (ParseException e)
-        {
-            System.out.println("Invalid Format");
-        }
-        boolean result = hotelReservation.addHotel("Lakewood", 110.00)&&
-                hotelReservation.addHotel("Bridgewood", 160.00)&&
-                hotelReservation.addHotel("Ridgewood", 220.00);
-        if (result)
-            System.out.println(hotelReservation.findCheapestHotel(inputDate));
-            Assertions.assertEquals("Lakewood", hotelReservation.findCheapestHotel(inputDate));
+    public void givenRangeOfDateShouldReturnCheapestHotelAtThatPeriod() {
+        HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
+        hotelReservationSystem.addHotel();
 
+        String cheapestHotel = hotelReservationSystem.findCheapestHotel("10/09/2020", "11/09/2020");
+
+        System.out.println(cheapestHotel);
+
+        Assertions.assertEquals("Lakewood, Total Price = $220", cheapestHotel);
+    }
+
+    @Test
+    public void whenWeekdayAndWeekendPricesIsAddedToHotelList(){
+        HotelReservationSystem hotelReservationSystem = new HotelReservationSystem();
+
+        hotelReservationSystem.addHotel();
+
+        String hotelName = hotelReservationSystem.ridgewood.getHotelName();
+        Integer hotelPrice = hotelReservationSystem.ridgewood.getWeekdayPrice();
+
+        hotelReservationSystem.print();
+
+        Assertions.assertEquals("Ridgewood", hotelName );
+        Assertions.assertEquals(220, hotelPrice);
     }
 }
 

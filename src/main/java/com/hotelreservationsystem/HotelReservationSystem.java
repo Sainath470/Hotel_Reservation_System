@@ -12,9 +12,9 @@ public class HotelReservationSystem {
     private static final Map<String, Hotel> listOfHotels = new HashMap<>();
 
     //Added Multiple Hotels
-    Hotel lakewood = new Hotel("Lakewood",110, 90,3);
-    Hotel bridgewood = new Hotel("Bridgewood", 150,50,4);
-    Hotel ridgewood = new Hotel("Ridgewood", 220,150,5);
+    Hotel lakewood = new Hotel("Lakewood",110, 90,3,80,80);
+    Hotel bridgewood = new Hotel("Bridgewood", 150,50,4,110,50);
+    Hotel ridgewood = new Hotel("Ridgewood", 220,150,5,100,40);
 
     //Added Hotels to listOfHotels
     public void addHotel() {
@@ -23,12 +23,6 @@ public class HotelReservationSystem {
         listOfHotels.put("Ridgewood",ridgewood);
     }
 
-    /**
-     * Find the Cheapest Hotels and cost
-     * @param checkInDate  Check In Date
-     * @param checkOutDate Check Out Date
-     * @return bestCheapestRatedHotel
-     */
     public Map.Entry<String, Hotel> findBestCheapestRatedHotel(String checkInDate, String checkOutDate) {
 
         for(Map.Entry<String, Hotel> hotelEntry: listOfHotels.entrySet()) {
@@ -43,12 +37,7 @@ public class HotelReservationSystem {
         return cheapestHotelStream.max(Comparator.comparing(hotel -> hotel.getValue().getRating())).orElseThrow();
     }
 
-    /**
-     * Find the Cheapest Hotels and cost
-     * @param checkInDate  Check In Date
-     * @param checkOutDate Check Out Date
-     * @return bestRatedHotel
-     */
+
     public Map.Entry<String, Hotel> findBestRatedHotel(String checkInDate, String checkOutDate){
         for(Map.Entry<String, Hotel> hotelEntry: listOfHotels.entrySet()) {
             calculateTotalPrice(checkInDate, checkOutDate, hotelEntry);
@@ -57,12 +46,7 @@ public class HotelReservationSystem {
                 .max(Comparator.comparing(hotel -> hotel.getValue().getRating()))
                 .orElseThrow();
     }
-    /**
-     * Find the Cheapest Hotels and cost
-     * @param checkInDate  Check In Date
-     * @param checkOutDate Check Out Date
-     * @param hotel Hotel
-     */
+
     public void calculateTotalPrice(String checkInDate, String checkOutDate, Map.Entry<String, Hotel> hotel) {
         hotel.getValue().totalPrice = 0;
 
@@ -81,7 +65,4 @@ public class HotelReservationSystem {
         }
     }
 
-    public void print(){
-        listOfHotels.forEach((key, value) -> System.out.println(value));
-    }
 }
